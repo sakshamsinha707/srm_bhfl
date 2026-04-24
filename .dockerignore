@@ -1,0 +1,10 @@
+.git
+.gitignore
+.cursor
+agent-transcripts
+backend/node_modules
+backend/.env
+frontend
+node_modules
+*.log
+*.pdf
