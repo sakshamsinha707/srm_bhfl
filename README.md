@@ -1,29 +1,46 @@
-# Frontend
+# Backend
 
-React + Vite frontend for the SRM hierarchy challenge.
+Express backend for the SRM challenge.
 
 ## Scripts
 
 ```bash
+npm start
 npm run dev
-npm run build
-npm run lint
-npm run preview
+npm test
 ```
 
-## Environment Variable
+## Docker
 
-Copy `.env.example` to `.env` and set:
+From the repo root:
 
 ```bash
-VITE_API_BASE_URL=http://localhost:8080
+docker build -t srm-bfhl-api .
+docker run --rm -p 8080:8080 srm-bfhl-api
 ```
 
-Point this at your deployed backend URL before publishing the frontend.
+## Environment Variables
 
-## Features
+Copy `.env.example` to `.env` if you want to override the built-in submission identity values.
 
-- Supports newline-separated, comma-separated, and JSON-array inputs
-- Calls `POST /bfhl`
-- Displays identity metadata, summary metrics, hierarchy cards, invalid entries, and duplicate edges
-- Shows a clear error banner when the API request fails
+Available variables:
+
+- `FULL_NAME`
+- `DOB_DDMMYYYY`
+- `EMAIL_ID`
+- `COLLEGE_ROLL_NUMBER`
+- `PORT`
+
+## Endpoint
+
+`POST /bfhl`
+
+Request body:
+
+```json
+{
+  "data": ["A->B", "A->C", "B->D"]
+}
+```
+
+The route validates node strings, removes duplicate edges, applies the first-parent rule, detects cycles, builds hierarchies, and returns the summary required by the PDF.
